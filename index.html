@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Girls.mp3</title>
+    <style>
+        /* Reset default margins and paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Ensure the page takes up the full height */
+        html, body {
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Center the load button */
+        #loadButtonContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            background-color: #ffffff; /* Optional: background color before loading */
+        }
+
+        #loadButton {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #1e90ff;
+            color: #fff;
+            transition: background-color 0.3s;
+        }
+
+        #loadButton:hover {
+            background-color: #3742fa;
+        }
+
+        /* Content to display after loading */
+        #content {
+            display: none; /* Hidden initially */
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-image: url('background.jpg'); /* Replace with your background image */
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Center the elfs.png image */
+        #elfs {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            max-height: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Load Button -->
+    <div id="loadButtonContainer">
+        <button id="loadButton">Gyat? Load it.</button>
+    </div>
+
+    <!-- Content to display after loading -->
+    <div id="content">
+        <img src="elfs.PNG" alt="Elfs" id="elfs">
+        <audio id="audio" src="2D Girls.mp3"></audio>
+    </div>
+
+    <script>
+        // Function to handle the load button click
+        document.getElementById('loadButton').addEventListener('click', function() {
+            // Hide the load button container
+            document.getElementById('loadButtonContainer').style.display = 'none';
+            
+            // Show the main content
+            document.getElementById('content').style.display = 'block';
+            
+            // Play the audio
+            var audio = document.getElementById('audio');
+            audio.play().catch(function(error) {
+                console.log('Audio playback failed:', error);
+            });
+        });
+    </script>
+    
+</body>
+</html>
