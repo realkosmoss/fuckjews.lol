@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ShitBin ✦ Encrypted Note</title>
+  <style>
+    body {
+      background: #121212;
+      color: #ddd;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 600px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+    }
+    label {
+      display: block;
+      margin-top: 1.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #bbb;
+    }
+    input, textarea {
+      width: 100%;
+      margin-top: 0.3rem;
+      padding: 0.5rem 0.7rem;
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 3px;
+      color: #eee;
+      font-size: 1rem;
+      font-family: monospace;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    button {
+      margin-top: 1.5rem;
+      background: #2e2e2e;
+      border: none;
+      padding: 0.7rem 1.5rem;
+      color: #eee;
+      font-size: 1rem;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    button:hover {
+      background: #454545;
+    }
+    pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #1e1e1e;
+      padding: 1rem;
+      border-radius: 3px;
+      border: 1px solid #333;
+      margin-top: 2rem;
+      font-family: monospace;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+
+  <div id="creator" style="display:none;">
+    <h1>ShitBin ✦ Create</h1>
+
+    <label for="note">Note Text</label>
+    <textarea id="note" rows="10" placeholder="Write your secret here..."></textarea>
+
+    <label for="password">Password</label>
+    <input type="text" id="password" placeholder="Enter encryption password" />
+
+    <button onclick="encryptNote()">Create Encrypted Link</button>
+
+    <label for="result">Shareable Link</label>
+    <textarea id="result" rows="3" readonly></textarea>
+  </div>
+
+  <div id="viewer" style="display:none;">
+    <h1>ShitBin ✦ View</h1>
+
+    <label for="viewpass">Enter Password</label>
+    <input type="text" id="viewpass" placeholder="Decrypt password" />
+
+    <button onclick="decryptNote()">Reveal Note</button>
+
+    <pre id="output" style="display:none;"></pre>
+  </div>
+
+  <script>
+    const hasHash = location.hash.length > 1;
+    document.getElementById(hasHash ? "viewer" : "creator").style.display = "block";
+
+    function encryptNote() {
+      const text = document.getElementById("note").value.trim();
+      const pass = document.getElementById("password").value;
+      if (!text || !pass) {
+        alert("Please enter both the note and password.");
+        return;
+      }
+      const encrypted = CryptoJS.AES.encrypt(text, pass).toString();
+      const link = location.origin + location.pathname + "#" + encodeURIComponent(encrypted);
+      document.getElementById("result").value = link;
+    }
+
+    function decryptNote() {
+      const pass = document.getElementById("viewpass").value;
+      const encrypted = decodeURIComponent(location.hash.slice(1));
+      if (!pass) {
+        alert("Enter a password.");
+        return;
+      }
+      try {
+        const decrypted = CryptoJS.AES.decrypt(encrypted, pass).toString(CryptoJS.enc.Utf8);
+        if (!decrypted) throw new Error("Invalid password or corrupted data.");
+        document.getElementById("output").textContent = decrypted;
+        document.getElementById("output").style.display = "block";
+      } catch (e) {
+        alert("Decryption failed: " + e.message);
+      }
+    }
+  </script>
+
+</body>
+</html>
