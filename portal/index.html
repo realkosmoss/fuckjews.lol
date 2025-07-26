@@ -62,7 +62,7 @@
     }
     try {
       const encrypted = CryptoJS.AES.encrypt(url, pass).toString();
-      const redirector = window.location.origin + window.location.pathname + "#" + encodeURIComponent(encrypted);
+      const redirector = window.location.origin + "redirect.html#" + encodeURIComponent(encrypted);
       document.getElementById("result").value = redirector;
     } catch (e) {
       alert("Encryption error: " + e.message);
