@@ -62,7 +62,7 @@
     }
     try {
       const encrypted = CryptoJS.AES.encrypt(url, pass).toString();
-      const redirector = window.location.origin + "redirect.html#" + encodeURIComponent(encrypted);
+      const redirector = "https://www.fuckjews.lol/portal/redirect.html#" + encodeURIComponent(encrypted);
       document.getElementById("result").value = redirector;
     } catch (e) {
       alert("Encryption error: " + e.message);
