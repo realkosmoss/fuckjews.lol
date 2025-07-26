@@ -96,11 +96,20 @@
 
     document.body.innerHTML = `
       <h1>Enter Password to Redirect</h1>
-      <input type="password" id="password" placeholder="Password" autocomplete="off" />
-      <button id="decryptBtn">Redirect</button>
+      <form autocomplete="off">
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          autocomplete="new-password"
+          spellcheck="false"
+        />
+        <button id="decryptBtn" type="button">Redirect</button>
+      </form>
       <div id="error"></div>
       <div id="loading" style="display:none;">Decrypting…</div>
     `;
+
 
     const errorDiv = document.getElementById("error");
     const loadingDiv = document.getElementById("loading");
